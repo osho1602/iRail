@@ -1,0 +1,209 @@
+/* Base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #fdfdfd;
+    color: #222;
+  }
+  
+  /* Header */
+  .site-header {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 15px 10px;
+    border-bottom: 4px solid orange;
+  }
+  .site-header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  .site-header p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    color: #ddd;
+  }
+  
+  /* Calculator Box */
+  .calculator-container {
+    background: #fff;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 8px;
+    width: 320px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+  }
+  .calculator-container h2 {
+    text-align: center;
+    color: #222;
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background: orange;
+    color: #222;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #ff9933;
+  }
+  #result {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: darkred;
+  }
+  
+  /* Rules Section */
+  .rules {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fafafa;
+    border-left: 5px solid orange;
+  }
+  .rules h3 {
+    margin-top: 0;
+    color: #222;
+  }
+  .rules ul {
+    margin: 10px 0 0;
+    padding-left: 20px;
+  }
+  .rules li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  
+  /* Footer */
+  .site-footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 12px 10px;
+    margin-top: 40px;
+    border-top: 4px solid orange;
+  }
+
+  
+  .bubble{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: rgba(135,206,250,0.6); /* sky blue bubble */
+    pointer-events:none;
+    mix-blend-mode: lighten;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+    0%{
+      transform: scale(1);
+      opacity:1;
+    }
+    100%{
+      transform: scale(2);
+      opacity:0;
+    }
+}
+
+/* Chatbot Icon */
+#chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: #1A2233;
+    color: white;
+    font-size: 28px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  
+  /* Chatbox */
+  #chatbot-box {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 350px;
+    background: #0F1725;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: "Salsa", cursive;
+  }
+  
+  #chatbot-header {
+    background: #1A2233;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  #chatbot-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 80%;
+  }
+  
+  .message.bot { background: #334155; color: white; align-self: flex-start; }
+  .message.user { background: skyblue; color: #0F1725; align-self: flex-end; }
+  
+  #chatbot-input-section {
+    display: flex;
+    border-top: 1px solid #334155;
+  }
+  
+  #chatbot-input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    outline: none;
+    background: #0F1725;
+    color: white;
+  }
+  
+  #sendButton {
+    width: 70px;
+    border: none;
+    background: #FF8800;
+    color: white;
+    cursor: pointer;
+  }
+  

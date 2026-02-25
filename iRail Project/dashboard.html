@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iRail Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Salsa&display=swap" rel="stylesheet">
+<link rel="icon" href="Images/iRail logo 1.png" />
+<style>
+  *{margin:0; padding:0; box-sizing:border-box; font-family:"Salsa", cursive;}
+  body{background:#0F1725; color:white;}
+  
+  header{
+    background: linear-gradient(90deg, #0F1725, #1B2735);
+    color:white; 
+    padding:25px 20px; 
+    text-align:center; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    border-bottom: 4px solid #FF8800;
+  }
+  header h1{font-size:30px; margin-bottom:5px; color: skyblue;}
+  header p{color:#87CEFA; font-size:16px;}
+
+  .dashboard-container{
+    max-width:1200px; 
+    margin:30px auto; 
+    display:grid; 
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); 
+    gap:25px;
+  }
+
+  .card{
+    background: #1A2233;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 15px rgba(0,0,0,0.3);
+    transition:0.3s;
+    position:relative;
+  }
+  .card:hover{
+    transform: translateY(-5px);
+    box-shadow:0 12px 20px rgba(0,0,0,0.5);
+  }
+  .card h3{
+    color:#FF8800; 
+    margin-bottom:15px;
+    font-size:20px;
+  }
+  .card p{
+    font-size:22px; 
+    font-weight:bold;
+    color: skyblue;
+  }
+
+  /* Icon on card */
+  .card .icon{
+    position:absolute;
+    top:15px;
+    right:15px;
+    font-size:30px;
+    color:rgba(255,136,0,0.3);
+  }
+
+  /* Graph Card */
+  .graph-card{grid-column:1/-1; padding:30px;}
+
+  /* Table */
+  table{
+    width:100%; 
+    border-collapse:collapse; 
+    margin-top:15px; 
+    border-radius:10px;
+    overflow:hidden;
+  }
+  th,td{padding:12px; text-align:left;}
+  th{background:#FF8800; color:#0F1725;}
+  tr:nth-child(even){background:#1B2636;}
+  tr:hover{background:#334155;}
+  td{color:white;}
+
+  /* Game */
+  .game-card{grid-column:1/-1; text-align:center;}
+  #coinGame{display:block; margin:15px auto; background:#1B2636; border-radius:12px; border:1px solid #334155;}
+
+  /* Footer */
+  footer{
+    background: linear-gradient(90deg,#0F1725,#1B2735);
+    color:white;
+    text-align:center;
+    padding:20px;
+    border-top:4px solid #FF8800;
+    box-shadow:0 -4px 6px rgba(0,0,0,0.3);
+    margin-top:30px;
+    font-size:14px;
+  }
+
+  button{
+    background:#FF8800;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+  }
+  button:hover{background:#ffa64d;}
+
+  .bubble{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: rgba(135,206,250,0.6); /* sky blue bubble */
+    pointer-events:none;
+    mix-blend-mode: lighten;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+    0%{
+      transform: scale(1);
+      opacity:1;
+    }
+    100%{
+      transform: scale(2);
+      opacity:0;
+    }
+}
+/* Chatbot Icon */
+#chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: #1A2233;
+  color: white;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Chatbox */
+#chatbot-box {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  height: 350px;
+  background: #0F1725;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Salsa", cursive;
+}
+
+#chatbot-header {
+  background: #1A2233;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+}
+
+.message.bot { background: #334155; color: white; align-self: flex-start; }
+.message.user { background: skyblue; color: #0F1725; align-self: flex-end; }
+
+#chatbot-input-section {
+  display: flex;
+  border-top: 1px solid #334155;
+}
+
+#chatbot-input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: #0F1725;
+  color: white;
+}
+
+#sendButton {
+  width: 70px;
+  border: none;
+  background: #FF8800;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>iRail User Dashboard</h1>
+  <p>Track Complaints, TT Fraud & Earned Coins</p>
+</header>
+
+<div class="dashboard-container">
+
+  <div class="card">
+    <div class="icon">📄</div>
+    <h3>Total Complaints</h3>
+    <p id="totalComplaints">5</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">🚨</div>
+    <h3>TT Fraud Detected</h3>
+    <p id="fraudTT">3</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">💰</div>
+    <h3>Coins Earned</h3>
+    <p id="coins">120</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">⏳</div>
+    <h3>Complaints In Action</h3>
+    <p id="inAction">2</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">✅</div>
+    <h3>Resolved Complaints</h3>
+    <p id="resolved">3</p>
+  </div>
+
+  <!-- Stock Market Style Graph -->
+  <div class="graph-card card">
+    <h3>Complaint & Coins Trend</h3>
+    <canvas id="trendChart" height="120"></canvas>
+  </div>
+
+  <!-- Recent Complaints Table -->
+  <div class="card" style="grid-column:1/-1;">
+    <h3>Recent Complaints</h3>
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Train No</th><th>Reason</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>101</td><td>12345</td><td>Overcharging</td><td>Pending</td></tr>
+        <tr><td>102</td><td>67890</td><td>Fake TT</td><td>Resolved</td></tr>
+        <tr><td>103</td><td>11223</td><td>Harassment</td><td>In Action</td></tr>
+        <tr><td>104</td><td>44556</td><td>Overcharging</td><td>Resolved</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mini Game -->
+  <div class="game-card card">
+    <h3>Mini Game: Catch the Coin!</h3>
+    <p>Click coins to earn extra points / सिक्के क्लिक करें</p>
+    <canvas id="coinGame" width="600" height="200"></canvas>
+    <p>Score / स्कोर: <span id="gameScore">0</span></p>
+    <button id="startGame">Start Game / शुरू करें</button>
+  </div>
+
+</div>
+
+<!-- Chatbot Icon -->
+<div id="chatbot-icon">🤖</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chatbot-header">iRail Assistant</div>
+  <div id="chatbot-messages">
+    <div class="message bot">Hi! Ask me anything about Indian Railways / रेलवे से सवाल पूछें।</div>
+  </div>
+  <div id="chatbot-input-section">
+    <input type="text" id="chatbot-input" placeholder="Type your question...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+
+
+<footer>© 2025 iRail Dashboard | Demo Version</footer>
+
+<script>
+// Chart.js Stock Market Style
+const ctx = document.getElementById('trendChart').getContext('2d');
+const trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Day1','Day2','Day3','Day4','Day5','Day6','Day7'],
+        datasets: [{
+            label:'Coins Earned',
+            data:[100,120,90,130,150,140,160],
+            borderColor:'skyblue',
+            backgroundColor:'rgba(135,206,250,0.2)',
+            tension:0.4,
+            fill:true,
+            pointRadius:5,
+            pointBackgroundColor:'skyblue'
+        }]
+    },
+    options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}
+});
+
+// Coin Catch Game
+const canvas = document.getElementById('coinGame');
+const ctxGame = canvas.getContext('2d');
+let coins=[], score=0, gameInterval, gameActive=false;
+
+function spawnCoin(){
+    const x=Math.random()*(canvas.width-30);
+    const y=Math.random()*(canvas.height-30);
+    coins.push({x,y,radius:15});
+}
+
+function drawCoins(){
+    ctxGame.clearRect(0,0,canvas.width,canvas.height);
+    coins.forEach(c=>{
+        ctxGame.beginPath();
+        ctxGame.arc(c.x,c.y,c.radius,0,Math.PI*2);
+        ctxGame.fillStyle='orange';
+        ctxGame.fill();
+        ctxGame.strokeStyle='darkorange';
+        ctxGame.stroke();
+    });
+}
+
+canvas.addEventListener('click', function(e){
+    if(!gameActive) return;
+    const rect=canvas.getBoundingClientRect();
+    const mouseX=e.clientX-rect.left;
+    const mouseY=e.clientY-rect.top;
+    coins=coins.filter(c=>{
+        const dist=Math.hypot(c.x-mouseX,c.y-mouseY);
+        if(dist<c.radius){
+            score+=10;
+            document.getElementById('gameScore').textContent=score;
+            document.getElementById('coins').textContent=parseInt(document.getElementById('coins').textContent)+10;
+            return false;
+        }
+        return true;
+    });
+});
+
+document.getElementById('startGame').addEventListener('click', function(){
+    if(gameActive) return;
+    gameActive=true; score=0; document.getElementById('gameScore').textContent=0; coins=[];
+    gameInterval=setInterval(()=>{ spawnCoin(); drawCoins(); }, 800);
+    setTimeout(()=>{
+        clearInterval(gameInterval);
+        gameActive=false;
+        alert("Game Over! / गेम खत्म! Your score: "+score);
+    },30000);
+});
+
+// Mouse bubble trail
+document.addEventListener('mousemove', function(e){
+    createBubble(e.pageX, e.pageY);
+});
+
+function createBubble(x, y){
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    bubble.style.left = (x - 5) + 'px';
+    bubble.style.top = (y - 5) + 'px';
+    document.body.appendChild(bubble);
+
+    // remove bubble after animation
+    setTimeout(() => {
+        bubble.remove();
+    }, 1000); // match with fadeOut animation
+}
+
+const chatbotIcon = document.getElementById("chatbot-icon");
+const chatbotBox = document.getElementById("chatbot-box");
+const chatbotInput = document.getElementById("chatbot-input");
+const sendButton = document.getElementById("sendButton");
+const chatMessages = document.getElementById("chatbot-messages");
+
+// Toggle chatbox
+chatbotIcon.addEventListener("click", () => {
+  chatbotBox.style.display = chatbotBox.style.display === "flex" ? "none" : "flex";
+  chatbotBox.style.flexDirection = "column";
+  chatbotInput.focus();
+});
+
+// iRail offline responses
+const iRailFAQ = {
+  "train schedule": "Check train schedule: www.indianrail.gov.in / ट्रेन शेड्यूल देखें।",
+  "fine": "Use iRail Fine Calculator / iRail Fine Calculator से सटीक जुर्माना देखें।",
+  "tt fraud": "File TT fraud complaints in iRail Complaint section / TT फ्रॉड शिकायत दर्ज करें।",
+  "complaint": "Submit complaints in iRail Complaint section / iRail Complaint सेक्शन में शिकायत दर्ज करें।",
+  "contact": "Indian Railways Helpline: 139 / ईमेल: info@indianrail.gov.in",
+  "emergency": "For emergencies contact railway police at 100 / आपातकालीन सहायता: रेलवे पुलिस 100।"
+};
+
+// Send message
+function sendMessage() {
+  const userMsg = chatbotInput.value.trim();
+  if (!userMsg) return;
+
+  addMessage(userMsg, "user");
+  chatbotInput.value = '';
+
+  let botMsg = "Sorry! I can't answer this question yet / मुझे जवाब नहीं पता।";
+  for (let key in iRailFAQ) {
+    if (userMsg.toLowerCase().includes(key)) {
+      botMsg = iRailFAQ[key];
+      break;
+    }
+  }
+
+  setTimeout(() => addMessage(botMsg, "bot"), 300);
+}
+
+// Add message
+function addMessage(msg, sender) {
+  const div = document.createElement("div");
+  div.className = `message ${sender}`;
+  div.textContent = msg;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Events
+sendButton.addEventListener("click", sendMessage);
+chatbotInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
+
+
+
+</script>
+
+</body>
+</html>
+``

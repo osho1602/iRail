@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fine Calculator | iRail</title>
+  <link rel="stylesheet" href="fine_style2.css">
+  <link rel="icon" href="Images/iRail logo 1.png" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Indian Railways - Fine Calculator</h1>
+    <p>भारतीय रेल - जुर्माना कैलकुलेटर</p>
+  </header>
+
+  <main class="calculator-container">
+    <h2>Calculate Fine / जुर्माना कैलकुलेटर</h2>
+
+    <label for="fromStation">From Station / प्रस्थान स्टेशन:</label>
+    <select id="fromStation">
+      <option value="">Select / चुनें</option>
+      <option value="Lucknow">Lucknow</option>
+      <option value="Gorakhpur">Gorakhpur</option>
+      <option value="Kanpur">Kanpur</option>
+      <option value="Varanasi">Varanasi</option>
+      <option value="Prayagraj">Prayagraj</option>
+    </select>
+
+    <label for="toStation">To Station / गंतव्य स्टेशन:</label>
+    <select id="toStation">
+      <option value="">Select / चुनें</option>
+      <option value="Lucknow">Lucknow</option>
+      <option value="Gorakhpur">Gorakhpur</option>
+      <option value="Kanpur">Kanpur</option>
+      <option value="Varanasi">Varanasi</option>
+      <option value="Prayagraj">Prayagraj</option>
+    </select>
+
+    <button id="calculateBtn">Calculate Fine / जुर्माना निकालें</button>
+
+    <div id="result"></div>
+  </main>
+
+  <section class="rules">
+    <h3>Rules for Fine Calculation / जुर्माना नियम</h3>
+    <ul>
+      <li>Travelling without a ticket is punishable under the Indian Railways Act.  
+      बिना टिकट यात्रा करना भारतीय रेल अधिनियम के अंतर्गत दंडनीय है।</li>
+      <li>Minimum fine: ₹250 + actual fare.  
+      न्यूनतम जुर्माना: ₹250 + वास्तविक किराया।</li>
+      <li>Fine may increase depending on the distance and class.  
+      जुर्माना दूरी और श्रेणी के अनुसार बढ़ सकता है।</li>
+      <li>Penalty is to be paid immediately to the authorized TT only.  
+      जुर्माना तुरंत अधिकृत टीटी को ही देना होगा।</li>
+    </ul>
+  </section>
+
+  <!-- Chatbot Icon -->
+<div id="chatbot-icon">🤖</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chatbot-header">iRail Assistant</div>
+  <div id="chatbot-messages">
+    <div class="message bot">Hi! Ask me anything about Indian Railways / रेलवे से सवाल पूछें।</div>
+  </div>
+  <div id="chatbot-input-section">
+    <input type="text" id="chatbot-input" placeholder="Type your question...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+
+
+  <footer class="site-footer">
+    <p>© <span id="copyright-year"></span> Indian Railways | भारतीय रेल</p>
+  </footer>
+
+  <script src="fine_script.js"></script>
+</body>
+</html>

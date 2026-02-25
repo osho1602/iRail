@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>iRail — Register / Sign Up</title>
+  <link rel="icon" href="Images/iRail logo 1.png" />
+  <style>
+    :root{--accent:#0b74de;--bg:#0f1720;--card:#0b1220;--muted:#9aa6b2}
+    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    body{margin:0;background:linear-gradient(180deg,#0b1220 0%, #071029 100%);color:#e6eef6;min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .card{width:920px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));border-radius:12px;padding:22px;box-shadow:0 10px 30px rgba(2,6,23,0.7)}
+    .tabs{display:flex;gap:8px;margin-bottom:14px}
+    .tab{padding:10px 16px;border-radius:8px;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,0.03)}
+    .tab.active{background:linear-gradient(90deg,var(--accent),#3aa0ff);color:#06233b;font-weight:700}
+    .inner{display:flex;gap:24px}
+    .left{flex:1;padding:12px}
+    .right{flex:1;padding:12px;border-left:1px dashed rgba(255,255,255,0.03)}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input[type=text],input[type=email],input[type=password],input[type=number],textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;margin-bottom:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .row{display:flex;gap:8px}
+    .col{flex:1}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn.primary{background:var(--accent);color:#042037;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .google{display:flex;align-items:center;gap:8px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);cursor:pointer}
+    .muted-box{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;color:var(--muted);font-size:14px}
+    .hidden{display:none}
+    .center{text-align:center}
+    .terms{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+    .mpin-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(1,3,10,0.6)}
+    .mpin-card{background:#071426;padding:18px;border-radius:12px;width:360px}
+    .success{background:linear-gradient(90deg,#0f8a4f,#12c06f);padding:12px;border-radius:8px;color:#052617;font-weight:700;text-align:center}
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+    .thankyou{font-size:16px;font-weight:700;margin-top:12px}
+    .role-badge{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-size:13px}
+    @media(max-width:720px){.inner{flex-direction:column}.right{border-left:none;border-top:1px dashed rgba(255,255,255,0.03);padding-top:18px}}
+    .bubble{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: rgba(135,206,250,0.6); /* sky blue bubble */
+    pointer-events:none;
+    mix-blend-mode: lighten;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+    0%{
+      transform: scale(1);
+      opacity:1;
+    }
+    100%{
+      transform: scale(2);
+      opacity:0;
+    }
+}
+
+/* Chatbot Icon */
+#chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: #1A2233;
+  color: white;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Chatbox */
+#chatbot-box {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  height: 350px;
+  background: #0F1725;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Salsa", cursive;
+}
+
+#chatbot-header {
+  background: #1A2233;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+}
+
+.message.bot { background: #334155; color: white; align-self: flex-start; }
+.message.user { background: skyblue; color: #0F1725; align-self: flex-end; }
+
+#chatbot-input-section {
+  display: flex;
+  border-top: 1px solid #334155;
+}
+
+#chatbot-input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: #0F1725;
+  color: white;
+}
+
+#sendButton {
+  width: 70px;
+  border: none;
+  background: #FF8800;
+  color: white;
+  cursor: pointer;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <div class="tab active" data-role="user">User Sign In</div>
+      <div class="tab" data-role="tt">TT Sign In</div>
+      <div class="tab" data-role="vendor">Vendor Sign In</div>
+    </div>
+
+    <div class="inner">
+      <div class="left">
+        <!-- Forms container -->
+        <div id="forms">
+          <!-- USER FORM -->
+          <form id="form-user" class="form" autocomplete="off">
+            <h3>User Registration <span class="role-badge">Passenger</span></h3>
+            <div class="row">
+              <div class="col">
+                <label for="u_name">Full name</label>
+                <input id="u_name" name="name" type="text" placeholder="e.g. Rahul Sharma" required />
+              </div>
+              <div class="col">
+                <label for="u_age">Age</label>
+                <input id="u_age" name="age" type="number" min="12" placeholder="18" required />
+              </div>
+            </div>
+            <label for="u_mobile">Mobile number</label>
+            <input id="u_mobile" name="mobile" type="text" placeholder="10-digit mobile" required />
+
+            <label for="u_email">Email</label>
+            <input id="u_email" name="email" type="email" placeholder="you@example.com" required />
+
+            <label for="u_aadhar">Aadhaar Number</label>
+            <input id="u_aadhar" name="aadhar" type="text" placeholder="xxxx-xxxx-xxxx" required />
+
+            <label for="u_address">Address</label>
+            <textarea id="u_address" name="address" rows="2" placeholder="Home / City / State" required></textarea>
+
+            <div class="row">
+              <div class="col">
+                <label for="u_pass">Set password</label>
+                <input id="u_pass" name="password" type="password" placeholder="Choose a strong password" required />
+              </div>
+              <div class="col">
+                <label for="u_pass2">Confirm password</label>
+                <input id="u_pass2" name="password2" type="password" placeholder="Confirm" required />
+              </div>
+            </div>
+
+            <div class="terms">
+              <input id="u_terms" type="checkbox" required />
+              <label for="u_terms" class="small">I accept the <u>Terms & Conditions</u> and confirm I am at least 18 years old.</label>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="google" onclick="fakeGoogleSign('user')">Sign in with Google</div>
+              <button class="btn primary" type="submit">Submit</button>
+              <button type="button" class="btn ghost" onclick="resetForm('user')">Clear</button>
+            </div>
+          </form>
+
+          <!-- TT FORM -->
+          <form id="form-tt" class="form hidden" autocomplete="off">
+            <h3>Ticket Examiner (TT) Registration <span class="role-badge">Railway Staff</span></h3>
+            <label for="t_name">Full name</label>
+            <input id="t_name" name="name" type="text" placeholder="e.g. Suresh Kumar" required />
+
+            <div class="row">
+              <div class="col">
+                <label for="t_id">Employee ID</label>
+                <input id="t_id" name="empid" type="text" placeholder="TT EMP ID" required />
+              </div>
+              <div class="col">
+                <label for="t_station">Assigned division / station</label>
+                <input id="t_station" name="station" type="text" placeholder="e.g. Lucknow Jn" required />
+              </div>
+            </div>
+
+            <label for="t_mobile">Mobile number</label>
+            <input id="t_mobile" name="mobile" type="text" placeholder="10-digit mobile" required />
+
+            <label for="t_email">Official Email</label>
+            <input id="t_email" name="email" type="email" placeholder="you@railways.gov.in" required />
+
+            <label for="t_aadhar">Aadhaar / Govt ID</label>
+            <input id="t_aadhar" name="aadhar" type="text" placeholder="xxxx-xxxx-xxxx" required />
+
+            <div class="row">
+              <div class="col">
+                <label for="t_pass">Set password</label>
+                <input id="t_pass" name="password" type="password" placeholder="Password" required />
+              </div>
+              <div class="col">
+                <label for="t_pass2">Confirm password</label>
+                <input id="t_pass2" name="password2" type="password" placeholder="Confirm" required />
+              </div>
+            </div>
+
+            <div class="terms">
+              <input id="t_terms" type="checkbox" required />
+              <label for="t_terms" class="small">I confirm I am an authorized Railway staff and accept the rules.</label>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="google" onclick="fakeGoogleSign('tt')">Sign in with Google</div>
+              <button class="btn primary" type="submit">Submit</button>
+              <button type="button" class="btn ghost" onclick="resetForm('tt')">Clear</button>
+            </div>
+          </form>
+
+          <!-- VENDOR FORM -->
+          <form id="form-vendor" class="form hidden" autocomplete="off">
+            <h3>Vendor Registration <span class="role-badge">On-train Vendor</span></h3>
+            <label for="v_name">Shop / Owner name</label>
+            <input id="v_name" name="name" type="text" placeholder="e.g. Tasty Treats" required />
+
+            <label for="v_gst">GST Number</label>
+            <input id="v_gst" name="gst" type="text" placeholder="GSTIN" required />
+
+            <label for="v_mobile">Mobile number</label>
+            <input id="v_mobile" name="mobile" type="text" placeholder="Contact mobile" required />
+
+            <label for="v_email">Email</label>
+            <input id="v_email" name="email" type="email" placeholder="owner@example.com" required />
+
+            <label for="v_address">Service areas / trains</label>
+            <textarea id="v_address" name="areas" rows="2" placeholder="Trains / Stations you serve" required></textarea>
+
+            <div class="row">
+              <div class="col">
+                <label for="v_pass">Set password</label>
+                <input id="v_pass" name="password" type="password" placeholder="Password" required />
+              </div>
+              <div class="col">
+                <label for="v_pass2">Confirm password</label>
+                <input id="v_pass2" name="password2" type="password" placeholder="Confirm" required />
+              </div>
+            </div>
+
+            <div class="terms">
+              <input id="v_terms" type="checkbox" required />
+              <label for="v_terms" class="small">I confirm I have valid licences, GST and follow hygiene rules.</label>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="google" onclick="fakeGoogleSign('vendor')">Sign in with Google</div>
+              <button class="btn primary" type="submit">Submit</button>
+              <button type="button" class="btn ghost" onclick="resetForm('vendor')">Clear</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="right">
+        <div id="panel-info" class="muted-box">
+          <h3 id="panel-role">Welcome — Create account</h3>
+          <p id="panel-desc">Choose one of the tabs above: <strong>User Login</strong>, <strong>TT Login</strong> or <strong>Vendor Login</strong>. Each account stores role-specific information. This demo does not send data to a server; it simulates registration flow and MPIN setup on the page.</p>
+          <div id="panel-extra" class="note">Tip: You can try "Sign in with Google" (simulated) or fill fields and submit to see the MPIN setup step.</div>
+        </div>
+
+        <div id="result" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Success toast (simple) -->
+  <div id="success-toast" class="hidden" style="position:fixed;right:18px;bottom:18px;min-width:220px"></div>
+
+  <!-- Chatbot Icon -->
+<div id="chatbot-icon">🤖</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chatbot-header">iRail Assistant</div>
+  <div id="chatbot-messages">
+    <div class="message bot">Hi! Ask me anything about Indian Railways / रेलवे से सवाल पूछें।</div>
+  </div>
+  <div id="chatbot-input-section">
+    <input type="text" id="chatbot-input" placeholder="Type your question...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+
+
+  <script>
+    // Simple UI switching
+    const tabs = document.querySelectorAll('.tab');
+    const forms = {user:document.getElementById('form-user'), tt:document.getElementById('form-tt'), vendor:document.getElementById('form-vendor')};
+    let currentRole = 'user';
+    let pendingData = null;
+
+    tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');
+      const r = t.dataset.role; switchRole(r);}));
+
+    function switchRole(role){currentRole=role; for(const k in forms){forms[k].classList.add('hidden')} forms[role].classList.remove('hidden');
+      document.getElementById('panel-role').innerText = role === 'user' ? 'Passenger — Register' : role==='tt' ? 'Ticket Examiner — Staff' : 'Vendor — Register';
+      document.getElementById('panel-desc').innerText = role==='user' ? 'Register as a passenger to access iRail features like complaint filing and fine calculator.' : role==='tt' ? 'TTs may register with official credentials. As a railway staff member you have extra responsibilities to keep passengers safe.' : 'Vendors register to offer food and services on-board. Keep hygiene and licenses updated.';
+    }
+
+    // Fake Google sign-in (demo)
+    function fakeGoogleSign(role){
+      const demo = {name: role==='user'? 'Google User' : role==='tt' ? 'Google TT' : 'Google Vendor', email: 'demo@gmail.com'};
+      showToast(`Signed in (simulated) as ${demo.name}`);
+      // prefill some fields
+      if(role==='user'){document.getElementById('u_name').value=demo.name; document.getElementById('u_email').value=demo.email}
+      if(role==='tt'){document.getElementById('t_name').value=demo.name; document.getElementById('t_email').value=demo.email}
+      if(role==='vendor'){document.getElementById('v_name').value=demo.name; document.getElementById('v_email').value=demo.email}
+    }
+
+    // Show toast
+    function showToast(msg){const t=document.getElementById('success-toast');t.classList.remove('hidden');t.innerHTML=`<div class="success">${msg}</div>`;setTimeout(()=>t.classList.add('hidden'),2500)}
+
+    // Reset
+    function resetForm(r){forms[r].reset(); showToast('Cleared');}
+
+    // On submit handlers: validate basic and then ask MPIN
+    document.getElementById('form-user').addEventListener('submit', e=>{e.preventDefault(); const ok = validatePasswords('u'); if(!ok) return; const data = extractForm('user'); pendingData = {role:'user',data}; openMpin();});
+    document.getElementById('form-tt').addEventListener('submit', e=>{e.preventDefault(); const ok = validatePasswords('t'); if(!ok) return; const data = extractForm('tt'); pendingData = {role:'tt',data}; openMpin();});
+    document.getElementById('form-vendor').addEventListener('submit', e=>{e.preventDefault(); const ok = validatePasswords('v'); if(!ok) return; const data = extractForm('vendor'); pendingData = {role:'vendor',data}; openMpin();});
+
+    function validatePasswords(pref){
+      const p = document.getElementById(pref + '_pass'); const p2 = document.getElementById(pref + '_pass2');
+      if(!p || !p2) return true; if(p.value !== p2.value){alert('Passwords do not match'); return false;} if(p.value.length < 6){alert('Password should be at least 6 characters'); return false;} return true;
+    }
+
+    function extractForm(role){
+      const obj = {};
+      if(role==='user'){
+        obj.name = document.getElementById('u_name').value;
+        obj.age = document.getElementById('u_age').value;
+        obj.mobile = document.getElementById('u_mobile').value;
+        obj.email = document.getElementById('u_email').value;
+        obj.aadhar = document.getElementById('u_aadhar').value;
+        obj.address = document.getElementById('u_address').value;
+      } else if(role==='tt'){
+        obj.name = document.getElementById('t_name').value;
+        obj.empid = document.getElementById('t_id').value;
+        obj.station = document.getElementById('t_station').value;
+        obj.mobile = document.getElementById('t_mobile').value;
+        obj.email = document.getElementById('t_email').value;
+        obj.aadhar = document.getElementById('t_aadhar').value;
+      } else {
+        obj.name = document.getElementById('v_name').value;
+        obj.gst = document.getElementById('v_gst').value;
+        obj.mobile = document.getElementById('v_mobile').value;
+        obj.email = document.getElementById('v_email').value;
+        obj.areas = document.getElementById('v_address').value;
+      }
+      return obj;
+    }
+
+    // MPIN flow
+    function openMpin(){document.getElementById('mpin-modal').classList.remove('hidden'); document.getElementById('mpin-input').value='';}
+    function closeMpin(){document.getElementById('mpin-modal').classList.add('hidden'); pendingData = null}
+    function saveMpin(){
+      const m = document.getElementById('mpin-input').value.trim(); if(!/^[0-9]{4}$/.test(m)){alert('MPIN must be 4 digits'); return}
+      // In a real app, you'd send pendingData and mpin to server here. We'll just show success.
+      document.getElementById('mpin-modal').classList.add('hidden');
+      const role = pendingData.role; const data = pendingData.data; pendingData=null;
+      showRegistrationSuccess(role,data);
+    }
+
+    function closeResult(){document.getElementById('result').classList.add('hidden')}
+
+    function showRegistrationSuccess(role,data){
+      const result = document.getElementById('result'); result.classList.remove('hidden');
+      let html = '';
+      if(role==='user'){
+        html += `<div class="success">Successfully registered</div><div class="thankyou">Welcome, ${escapeHtml(data.name)} — you are now a member of iRail. You can file complaints, calculate fines, and manage your profile from the dashboard.</div>`;
+        html += `<p class="note">Keep your MPIN safe. We recommend not sharing it with anyone.</p>`;
+      } else if(role==='tt'){
+        html += `<div class="success">Staff registration complete</div><div class="thankyou">Thank you, ${escapeHtml(data.name)}. As a railway staff member you are part of the official Railway team — your duties include ensuring passenger safety and verifying tickets responsibly.</div>`;
+        html += `<p class="note">Your credentials (Employee ID: ${escapeHtml(data.empid || '—')}) will be verified by the central admin. Keep your MPIN secure.</p>`;
+      } else {
+        html += `<div class="success">Vendor registered</div><div class="thankyou">Thanks, ${escapeHtml(data.name)}. You are now listed as an on-train vendor. Please follow hygiene and licensing rules while serving passengers.</div>`;
+        html += `<p class="note">GST: ${escapeHtml(data.gst || '—')}. Manage your offerings and service areas from your vendor dashboard.</p>`;
+      }
+      html += `<div style=\"margin-top:12px;\"><button class=\"btn ghost\" onclick=\"closeResult()\">Close</button></div>`;
+      result.innerHTML = html;
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // Escape helper
+    function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]}); }
+
+    // For demo: initialize
+    switchRole('user');
+    // Mouse bubble trail
+document.addEventListener('mousemove', function(e){
+    createBubble(e.pageX, e.pageY);
+});
+
+function createBubble(x, y){
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    bubble.style.left = (x - 5) + 'px';
+    bubble.style.top = (y - 5) + 'px';
+    document.body.appendChild(bubble);
+
+    // remove bubble after animation
+    setTimeout(() => {
+        bubble.remove();
+    }, 1000); // match with fadeOut animation
+}
+
+const chatbotIcon = document.getElementById("chatbot-icon");
+const chatbotBox = document.getElementById("chatbot-box");
+const chatbotInput = document.getElementById("chatbot-input");
+const sendButton = document.getElementById("sendButton");
+const chatMessages = document.getElementById("chatbot-messages");
+
+// Toggle chatbox
+chatbotIcon.addEventListener("click", () => {
+  chatbotBox.style.display = chatbotBox.style.display === "flex" ? "none" : "flex";
+  chatbotBox.style.flexDirection = "column";
+  chatbotInput.focus();
+});
+
+// iRail offline responses
+const iRailFAQ = {
+  "train schedule": "Check train schedule: www.indianrail.gov.in / ट्रेन शेड्यूल देखें।",
+  "fine": "Use iRail Fine Calculator / iRail Fine Calculator से सटीक जुर्माना देखें।",
+  "tt fraud": "File TT fraud complaints in iRail Complaint section / TT फ्रॉड शिकायत दर्ज करें।",
+  "complaint": "Submit complaints in iRail Complaint section / iRail Complaint सेक्शन में शिकायत दर्ज करें।",
+  "contact": "Indian Railways Helpline: 139 / ईमेल: info@indianrail.gov.in",
+  "emergency": "For emergencies contact railway police at 100 / आपातकालीन सहायता: रेलवे पुलिस 100।"
+};
+
+// Send message
+function sendMessage() {
+  const userMsg = chatbotInput.value.trim();
+  if (!userMsg) return;
+
+  addMessage(userMsg, "user");
+  chatbotInput.value = '';
+
+  let botMsg = "Sorry! I can't answer this question yet / मुझे जवाब नहीं पता।";
+  for (let key in iRailFAQ) {
+    if (userMsg.toLowerCase().includes(key)) {
+      botMsg = iRailFAQ[key];
+      break;
+    }
+  }
+
+  setTimeout(() => addMessage(botMsg, "bot"), 300);
+}
+
+// Add message
+function addMessage(msg, sender) {
+  const div = document.createElement("div");
+  div.className = `message ${sender}`;
+  div.textContent = msg;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Events
+sendButton.addEventListener("click", sendMessage);
+chatbotInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
+
+
+  </script>
+</body>
+</html>

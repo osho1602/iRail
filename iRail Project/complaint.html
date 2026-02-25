@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Registration | iRail</title>
+<link href="https://fonts.googleapis.com/css2?family=Salsa&display=swap" rel="stylesheet">
+<link rel="icon" href="Images/iRail logo 1.png" />
+<style>
+
+
+/* Chatbot Icon */
+#chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: #1A2233;
+  color: white;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Chatbox */
+#chatbot-box {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  height: 350px;
+  background: #0F1725;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Salsa", cursive;
+}
+
+#chatbot-header {
+  background: #1A2233;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+}
+
+.message.bot { background: #334155; color: white; align-self: flex-start; }
+.message.user { background: skyblue; color: #0F1725; align-self: flex-end; }
+
+#chatbot-input-section {
+  display: flex;
+  border-top: 1px solid #334155;
+}
+
+#chatbot-input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: #0F1725;
+  color: white;
+}
+
+#sendButton {
+  width: 70px;
+  border: none;
+  background: #FF8800;
+  color: white;
+  cursor: pointer;
+}
+
+.bubble{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: rgba(135,206,250,0.6); /* sky blue bubble */
+    pointer-events:none;
+    mix-blend-mode: lighten;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+    0%{
+      transform: scale(1);
+      opacity:1;
+    }
+    100%{
+      transform: scale(2);
+      opacity:0;
+    }
+}
+
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Salsa", cursive;}
+  body { background:#f4f6f8; color:#222;}
+  header { background:#000000be; color:white; text-align:center; padding:20px; border-bottom:4px solid #FF8800;}
+  header h1 { font-size:28px; margin-bottom:5px;}
+  header p { font-size:16px; color:#ffd480;}
+  
+  main { max-width:900px; margin:30px auto; padding:20px; background:white; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.1);}
+  
+  h2 { color:#9c0000; margin-bottom:15px; text-align:center;}
+  h3 { color:#FF8800; margin:15px 0 10px;}
+  
+  label { display:block; margin:10px 0 5px; font-weight:bold;}
+  input, select, textarea { width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; outline:none;}
+  input:focus, select:focus, textarea:focus { border-color:#FF8800; box-shadow:0 0 5px rgba(255,136,0,0.4);}
+  
+  button { margin-top:20px; padding:12px 0; width:100%; background:#FF8800; color:#222; font-weight:bold; border:none; border-radius:6px; cursor:pointer; transition:0.3s;}
+  button:hover { background:#ffa64d;}
+  
+  .rules { background:#eef2f5; padding:15px; margin-top:30px; border-left:5px solid #FF8800;}
+  .rules ul { padding-left:20px; }
+  .rules li { margin-bottom:8px; line-height:1.5; }
+
+  footer { background:#222; color:white; text-align:center; padding:15px; border-top:4px solid #FF8800; margin-top:30px; font-size:14px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Complaint Registration Portal</h1>
+  <p>शिकायत पंजीकरण पोर्टल (Official Demo)</p>
+</header>
+
+<main>
+  <h2>Register Your Complaint / अपनी शिकायत दर्ज करें</h2>
+  
+  <form id="complaintForm">
+    <label for="name">Name / नाम:</label>
+    <input type="text" id="name" placeholder="Enter your name / नाम दर्ज करें" required>
+
+    <label for="email">Email / ईमेल:</label>
+    <input type="email" id="email" placeholder="Enter email / ईमेल दर्ज करें" required>
+
+    <label for="phone">Phone / फ़ोन नंबर:</label>
+    <input type="tel" id="phone" placeholder="Enter phone / फ़ोन नंबर दर्ज करें" required>
+
+    <label for="trainNo">Train Number / ट्रेन नंबर:</label>
+    <input type="text" id="trainNo" placeholder="Enter Train Number / ट्रेन नंबर दर्ज करें" required>
+
+    <label for="fromStation">From Station / प्रस्थान स्टेशन:</label>
+    <input type="text" id="fromStation" placeholder="Enter From Station / स्टेशन दर्ज करें" required>
+
+    <label for="toStation">To Station / गंतव्य स्टेशन:</label>
+    <input type="text" id="toStation" placeholder="Enter To Station / स्टेशन दर्ज करें" required>
+
+    <label for="date">Date of Travel / यात्रा की तारीख:</label>
+    <input type="date" id="date" required>
+
+    <label for="reason">Reason for Complaint / शिकायत का कारण:</label>
+    <select id="reason" required>
+      <option value="">Select / चुनें</option>
+      <option value="Overcharging">Overcharging / अधिक मूल्य वसूली</option>
+      <option value="Harassment">Harassment / यात्री उत्पीड़न</option>
+      <option value="Fake TT">Fake TT / नकली टीटी</option>
+      <option value="Others">Others / अन्य</option>
+    </select>
+
+    <label for="photo">Upload Photo / फोटो अपलोड करें:</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <label for="details">Complaint Details / शिकायत विवरण:</label>
+    <textarea id="details" rows="5" placeholder="Provide full details / पूरी जानकारी दें" required></textarea>
+
+    <h3>Emergency Contact / आपातकालीन संपर्क</h3>
+    <p>Indian Railways Helpline: 139</p>
+    <p>Email: complaint@indianrail.gov.in</p>
+    <p>Police Contact / पुलिस: 100</p>
+
+    <button type="submit">Submit Complaint / शिकायत दर्ज करें</button>
+  </form>
+</main>
+
+<section class="rules">
+  <h3>Rules & Regulations / नियम और निर्देश</h3>
+  <ul>
+    <li>All complaints must be genuine and factual. / सभी शिकायतें वास्तविक और तथ्यात्मक होनी चाहिए।</li>
+    <li>False complaints may lead to legal action. / झूठी शिकायतों पर कानूनी कार्रवाई हो सकती है।</li>
+    <li>Submit only once per incident to avoid duplication. / किसी घटना के लिए केवल एक बार सबमिट करें।</li>
+    <li>Attach photos if available for verification. / सत्यापन के लिए उपलब्ध होने पर फोटो संलग्न करें।</li>
+    <li>Contact helpline numbers in case of emergency. / आपात स्थिति में हेल्पलाइन नंबर से संपर्क करें।</li>
+  </ul>
+</section>
+
+<!-- Chatbot Icon -->
+<div id="chatbot-icon">🤖</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chatbot-header">iRail Assistant</div>
+  <div id="chatbot-messages">
+    <div class="message bot">Hi! Ask me anything about Indian Railways / रेलवे से सवाल पूछें।</div>
+  </div>
+  <div id="chatbot-input-section">
+    <input type="text" id="chatbot-input" placeholder="Type your question...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+
+
+<footer>
+  © 2025 iRail Complaint Portal
+</footer>
+
+<script>
+  document.getElementById("complaintForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    alert("✅ Complaint submitted successfully!\nशिकायत सफलतापूर्वक दर्ज हो गई।");
+    this.reset();
+  });
+
+  // Mouse bubble trail
+document.addEventListener('mousemove', function(e){
+    createBubble(e.pageX, e.pageY);
+});
+
+function createBubble(x, y){
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    bubble.style.left = (x - 5) + 'px';
+    bubble.style.top = (y - 5) + 'px';
+    document.body.appendChild(bubble);
+
+    // remove bubble after animation
+    setTimeout(() => {
+        bubble.remove();
+    }, 1000); // match with fadeOut animation
+}
+const chatbotIcon = document.getElementById("chatbot-icon");
+const chatbotBox = document.getElementById("chatbot-box");
+const chatbotInput = document.getElementById("chatbot-input");
+const sendButton = document.getElementById("sendButton");
+const chatMessages = document.getElementById("chatbot-messages");
+
+// Toggle chatbox
+chatbotIcon.addEventListener("click", () => {
+  chatbotBox.style.display = chatbotBox.style.display === "flex" ? "none" : "flex";
+  chatbotBox.style.flexDirection = "column";
+  chatbotInput.focus();
+});
+
+// iRail offline responses
+const iRailFAQ = {
+  "train schedule": "Check train schedule: www.indianrail.gov.in / ट्रेन शेड्यूल देखें।",
+  "fine": "Use iRail Fine Calculator / iRail Fine Calculator से सटीक जुर्माना देखें।",
+  "tt fraud": "File TT fraud complaints in iRail Complaint section / TT फ्रॉड शिकायत दर्ज करें।",
+  "complaint": "Submit complaints in iRail Complaint section / iRail Complaint सेक्शन में शिकायत दर्ज करें।",
+  "contact": "Indian Railways Helpline: 139 / ईमेल: info@indianrail.gov.in",
+  "emergency": "For emergencies contact railway police at 100 / आपातकालीन सहायता: रेलवे पुलिस 100।"
+};
+
+// Send message
+function sendMessage() {
+  const userMsg = chatbotInput.value.trim();
+  if (!userMsg) return;
+
+  addMessage(userMsg, "user");
+  chatbotInput.value = '';
+
+  let botMsg = "Sorry! I can't answer this question yet / मुझे जवाब नहीं पता।";
+  for (let key in iRailFAQ) {
+    if (userMsg.toLowerCase().includes(key)) {
+      botMsg = iRailFAQ[key];
+      break;
+    }
+  }
+
+  setTimeout(() => addMessage(botMsg, "bot"), 300);
+}
+
+// Add message
+function addMessage(msg, sender) {
+  const div = document.createElement("div");
+  div.className = `message ${sender}`;
+  div.textContent = msg;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Events
+sendButton.addEventListener("click", sendMessage);
+chatbotInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
+
+</script>
+
+</body>
+</html>

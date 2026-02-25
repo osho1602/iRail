@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iRail — Login</title>
+  <link rel="icon" href="Images/iRail logo 1.png" />
+  <style>
+    :root{
+      --bg1: #0f172a; /* deep navy */
+      --bg2: #071330; /* darker blue */
+      --card-bg: rgba(255,255,255,0.06);
+      --accent-1: #7F00FF; /* purple */
+      --accent-2: #00D4FF; /* cyan */
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.03);
+      --text: #e6eef8;
+    }
+
+    *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+    html,body{height:100%;margin:0}
+    body{
+      background: radial-gradient(1200px 600px at 10% 20%, rgba(127,0,255,0.12), transparent),
+                  radial-gradient(1000px 500px at 90% 80%, rgba(0,212,255,0.06), transparent),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      display:flex;align-items:center;justify-content:center;padding:32px;
+    }
+
+    .container{
+      width:100%;max-width:420px;border-radius:18px;padding:28px;background:linear-gradient(180deg,var(--card-bg),var(--glass));
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(8px) saturate(1.05);
+      border:1px solid rgba(255,255,255,0.04);
+    }
+
+    .brand{
+      display:flex;gap:12px;align-items:center;margin-bottom:18px;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));box-shadow:0 6px 18px rgba(0,0,0,0.45);
+      font-weight:700;color:white;font-size:20px
+    }
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:rgba(230,238,248,0.8);font-size:13px}
+
+    /* segmented control */
+    .segmented{display:flex;gap:6px;margin:20px 0}
+    .segmented button{
+      flex:1;padding:10px;border-radius:12px;border:1px solid transparent;background:var(--glass-2);color:var(--text);cursor:pointer;font-weight:600;
+      transition:all .18s ease;backdrop-filter: blur(6px);
+    }
+    .segmented button.active{
+      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#061025;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.45);
+    }
+
+    form{display:flex;flex-direction:column;gap:12px}
+    label{font-size:12px;color:rgba(230,238,248,0.85)}
+    .input{
+      width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);
+      color:var(--text);outline:none;font-size:14px;transition:box-shadow .12s ease, border-color .12s ease;
+    }
+    .input:focus{box-shadow:0 8px 30px rgba(127,0,255,0.08);border-color:rgba(127,0,255,0.35)}
+
+    .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .small{font-size:12px;color:rgba(230,238,248,0.7)}
+
+    .btn-login{
+      margin-top:6px;padding:12px;border-radius:12px;border:0;font-weight:700;font-size:15px;cursor:pointer;
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#061025;box-shadow:0 12px 30px rgba(127,0,255,0.12);
+      transition:transform .12s ease, box-shadow .12s ease;display:flex;align-items:center;justify-content:center;gap:8px
+    }
+    .btn-login:active{transform:translateY(1px)}
+
+    .underline{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.03),transparent);margin:14px 0;border-radius:2px}
+
+    .note{font-size:12px;color:rgba(230,238,248,0.65);text-align:center;margin-top:8px}
+
+    .foot{display:flex;justify-content:center;gap:10px;margin-top:12px}
+    .link{font-size:13px;color:rgb(0, 0, 0);cursor:pointer}
+
+    /* small screens */
+    @media (max-width:420px){body{padding:18px}.container{padding:20px}}
+    .bubble{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background: rgba(135,206,250,0.6); /* sky blue bubble */
+    pointer-events:none;
+    mix-blend-mode: lighten;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+    0%{
+      transform: scale(1);
+      opacity:1;
+    }
+    100%{
+      transform: scale(2);
+      opacity:0;
+    }
+}
+
+/* Chatbot Icon */
+#chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: #1A2233;
+  color: white;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Chatbox */
+#chatbot-box {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  height: 350px;
+  background: #0F1725;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: "Salsa", cursive;
+}
+
+#chatbot-header {
+  background: #1A2233;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+}
+
+.message.bot { background: #334155; color: white; align-self: flex-start; }
+.message.user { background: skyblue; color: #0F1725; align-self: flex-end; }
+
+#chatbot-input-section {
+  display: flex;
+  border-top: 1px solid #334155;
+}
+
+#chatbot-input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: #0F1725;
+  color: white;
+}
+
+#sendButton {
+  width: 70px;
+  border: none;
+  background: #FF8800;
+  color: white;
+  cursor: pointer;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <div class="brand">
+      <div class="logo">iR</div>
+      <div>
+        <h1>iRail — Login</h1>
+        <p class="lead">Choose your role and sign in to continue.</p>
+      </div>
+    </div>
+
+    <div class="segmented" role="tablist" aria-label="Login type">
+      <button class="seg-btn active" data-role="user">User Login</button>
+      <button class="seg-btn" data-role="tt">TT Login</button>
+      <button class="seg-btn" data-role="vendor">Vendor Login</button>
+    </div>
+
+    <form id="loginForm" autocomplete="on">
+      <div>
+        <label id="nameLabel" for="name">Name</label>
+        <input id="name" class="input" name="name" type="text" placeholder="Enter your name" required />
+      </div>
+
+      <div>
+        <label id="passLabel" for="password">Password</label>
+        <input id="password" class="input" name="password" type="password" placeholder="Enter your password" required />
+      </div>
+
+      <div class="row">
+        <div class="small" id="roleNote">Signing in as <strong>User</strong></div>
+        <div>
+          <button type="button" class="link" id="forgot">Forgot?</button>
+        </div>
+      </div>
+
+      <button class="btn-login" id="loginBtn" type="submit">
+        <!-- small SVG lock -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M12 15a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="#061025"/>
+          <path d="M17 8h-1V6a4 4 0 10-8 0v2H7a1 1 0 00-1 1v9a2 2 0 002 2h8a2 2 0 002-2V9a1 1 0 00-1-1zM9 6a3 3 0 116 0v2H9V6z" fill="#061025"/>
+        </svg>
+        Login
+      </button>
+
+      <div class="underline" aria-hidden></div>
+      <div class="note">Only name and password required — role selected above determines access.</div>
+
+      <div class="foot">
+        <div class="link" id="help">Help</div>
+        <div class="link" id="terms">Terms</div>
+      </div>
+    </form>
+  </div>
+  <!-- Chatbot Icon -->
+<div id="chatbot-icon">🤖</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chatbot-header">iRail Assistant</div>
+  <div id="chatbot-messages">
+    <div class="message bot">Hi! Ask me anything about Indian Railways / रेलवे से सवाल पूछें।</div>
+  </div>
+  <div id="chatbot-input-section">
+    <input type="text" id="chatbot-input" placeholder="Type your question...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+
+
+  <script>
+    // simple interactivity: switch active segmented button and update small text
+    const segButtons = document.querySelectorAll('.seg-btn');
+    const roleNote = document.getElementById('roleNote');
+    let currentRole = 'user';
+
+    segButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        segButtons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        currentRole = btn.dataset.role;
+        roleNote.innerHTML = 'Signing in as <strong>' + (currentRole==='tt'? 'TT (Ticket Examiner)' : (currentRole==='vendor'? 'Vendor' : 'User')) + '</strong>';
+
+        // change placeholders or labels subtly (optional)
+        const nameLabel = document.getElementById('nameLabel');
+        const passLabel = document.getElementById('passLabel');
+        const nameInput = document.getElementById('name');
+        const passInput = document.getElementById('password');
+
+        if(currentRole==='tt'){
+          nameLabel.textContent = 'TT Name';
+          nameInput.placeholder = 'Enter TT name (as on ID)';
+          passLabel.textContent = 'TT Password';
+          passInput.placeholder = 'Enter TT password';
+        }else if(currentRole==='vendor'){
+          nameLabel.textContent = 'Vendor Name';
+          nameInput.placeholder = 'Enter vendor name / shop name';
+          passLabel.textContent = 'Vendor Password';
+          passInput.placeholder = 'Enter vendor password';
+        }else{
+          nameLabel.textContent = 'Name';
+          nameInput.placeholder = 'Enter your name';
+          passLabel.textContent = 'Password';
+          passInput.placeholder = 'Enter your password';
+        }
+      });
+    });
+
+    // handle form submit (demo only)
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const payload = {
+        role: currentRole,
+        name: document.getElementById('name').value.trim(),
+        password: document.getElementById('password').value
+      };
+
+      // basic client-side validation
+      if(!payload.name || !payload.password){
+        alert('Please fill both fields.');
+        return;
+      }
+
+      // Demo: show a friendly message. Replace this with real backend call.
+      alert('Demo login: role=' + payload.role + '\nName=' + payload.name + '\n(Password hidden)');
+
+      // If you wire up to backend, send `payload` to your API endpoint here (fetch / axios)
+    });
+
+    // keyboard accessibility: allow left/right arrows to switch
+    document.addEventListener('keydown', (e)=>{
+      if(['ArrowLeft','ArrowRight'].includes(e.key)){
+        const arr = Array.from(segButtons);
+        const idx = arr.findIndex(b=>b.classList.contains('active'));
+        let next = idx + (e.key==='ArrowRight'?1:-1);
+        if(next<0) next = arr.length-1; if(next>=arr.length) next=0;
+        arr[next].click();
+      }
+    });
+    // Mouse bubble trail
+document.addEventListener('mousemove', function(e){
+    createBubble(e.pageX, e.pageY);
+});
+
+function createBubble(x, y){
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    bubble.style.left = (x - 5) + 'px';
+    bubble.style.top = (y - 5) + 'px';
+    document.body.appendChild(bubble);
+
+    // remove bubble after animation
+    setTimeout(() => {
+        bubble.remove();
+    }, 1000); // match with fadeOut animation
+}
+
+const chatbotIcon = document.getElementById("chatbot-icon");
+const chatbotBox = document.getElementById("chatbot-box");
+const chatbotInput = document.getElementById("chatbot-input");
+const sendButton = document.getElementById("sendButton");
+const chatMessages = document.getElementById("chatbot-messages");
+
+// Toggle chatbox
+chatbotIcon.addEventListener("click", () => {
+  chatbotBox.style.display = chatbotBox.style.display === "flex" ? "none" : "flex";
+  chatbotBox.style.flexDirection = "column";
+  chatbotInput.focus();
+});
+
+// iRail offline responses
+const iRailFAQ = {
+  "train schedule": "Check train schedule: www.indianrail.gov.in / ट्रेन शेड्यूल देखें।",
+  "fine": "Use iRail Fine Calculator / iRail Fine Calculator से सटीक जुर्माना देखें।",
+  "tt fraud": "File TT fraud complaints in iRail Complaint section / TT फ्रॉड शिकायत दर्ज करें।",
+  "complaint": "Submit complaints in iRail Complaint section / iRail Complaint सेक्शन में शिकायत दर्ज करें।",
+  "contact": "Indian Railways Helpline: 139 / ईमेल: info@indianrail.gov.in",
+  "emergency": "For emergencies contact railway police at 100 / आपातकालीन सहायता: रेलवे पुलिस 100।"
+};
+
+// Send message
+function sendMessage() {
+  const userMsg = chatbotInput.value.trim();
+  if (!userMsg) return;
+
+  addMessage(userMsg, "user");
+  chatbotInput.value = '';
+
+  let botMsg = "Sorry! I can't answer this question yet / मुझे जवाब नहीं पता।";
+  for (let key in iRailFAQ) {
+    if (userMsg.toLowerCase().includes(key)) {
+      botMsg = iRailFAQ[key];
+      break;
+    }
+  }
+
+  setTimeout(() => addMessage(botMsg, "bot"), 300);
+}
+
+// Add message
+function addMessage(msg, sender) {
+  const div = document.createElement("div");
+  div.className = `message ${sender}`;
+  div.textContent = msg;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Events
+sendButton.addEventListener("click", sendMessage);
+chatbotInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iRail Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="Images/iRail logo 1.png" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Preloader / Splash Screen -->
+  <div id="preloader">
+    <img src="Images/iRail logo.png" alt="iRail Logo" class="preloader-logo">
+  </div>
+
+  <!-- Actual Website -->
+  <div id="website-content" style="display:none;">
+    <nav class="navbar">
+          <!-- Logo -->
+          <div class="logo">
+              <a href=""><img src="Images/iRail logo.png" alt="Logo"></a>
+          </div>
+
+      <!-- Hamburger for mobile -->
+      <input type="checkbox" id="menu-toggle">
+      <label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+      <!-- Menu Items -->
+            <ul class="nav-links">
+              <li><a href="tt-verify.html">TT VERIFICATION</a></li>
+              <li><a href="complaint.html">COMPLAINT</a></li>
+              <li><a href="fine1.html">FINE CALCULATE</a></li>
+              <li><a href="dashboard.html">DASHBOARD</a></li>
+              <li><a href="#footer"> ABOUT US </a></li>
+            </ul>
+
+          <!-- Login Button -->
+          <div class="signup-btn">
+            <a href="sign_up.html">SIGN UP</a>
+        </div>
+
+          <div class="login-btn">
+              <a href="login.html">LOGIN</a>
+          </div>
+    </nav>
+
+    <!-- Hero/Main Section -->
+    <div class="main-section" id="home">
+      <div class="train-img"></div>
+      <div class="main-heading">
+          <h1><span>iRail</span> A smart solution for all passengers’ problems.</h1>
+          <p class="p-1">Smart Railway Safety & Management App</p>
+      
+          <!-- Animated Text -->
+          <div class="text-rotate">
+            <span class="one">Empowering Passengers</span>
+            <span class="two">Supporting Railways</span>
+          </div>
+      </div>
+      
+      <!-- Scroll Down Arrow -->
+      <a href="#about" class="scroll-down">
+        <i class="fa-solid fa-arrow-down"></i>
+      </a>
+    </div>
+
+    <!-- About Section (for scroll target) -->
+    <div class="about-section" id="about">
+      <h2>About Indian Railway</h2>
+      <p>Indian Railways is one of the largest railway networks in the world, managed by the Government of India under the Ministry of Railways.
+        It was founded in 1853, when the first passenger train ran between Bombay (now Mumbai) and Thane.
+        
+        <p>🚆 Network Size: More than 68,000 km of track across India.</p>
+        
+        <p>👥 Passengers: Carries over 23 million passengers daily.</p>
+        
+        <p>🚚 Freight: Transports around 3 million tonnes of goods every day.</p>
+        
+        <p>🌍 Global Rank: Fourth largest railway network in the world.</p>
+        
+        <p>⚡ Modernization: High-speed trains, electrification projects, and digital ticketing are part of its growth.</p>
+        
+        Indian Railways is not just a transport system, it is called the Lifeline of the Nation, connecting villages, towns, and cities, and supporting both passenger convenience and economic growth.</p>
+    </div>
+
+    <!-- Chatbot Icon -->
+<div id="chatbot-icon">🤖</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chatbot-header">iRail Assistant</div>
+  <div id="chatbot-messages">
+    <div class="message bot">Hi! Ask me anything about Indian Railways / रेलवे से सवाल पूछें।</div>
+  </div>
+  <div id="chatbot-input-section">
+    <input type="text" id="chatbot-input" placeholder="Type your question...">
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+
+    <!-- Footer Start -->
+<footer id="footer">
+    <div class="footer-container">
+      <!-- Indian Railways Info -->
+      <div class="footer-section">
+        <h3>Indian Railways</h3>
+        <p>Indian Railways is one of the largest railway networks in the world — often
+            called the "Lifeline of the Nation". It connects cities, towns and villages
+            across India, carrying millions of passengers and freight every day.</p>
+        <p>Email: customercare@indianrail.gov.in</p>
+        <p>Phone: 139 (24x7 Helpline)</p>
+        <p>Website: <a href="https://indianrailways.gov.in" target="_blank">indianrailways.gov.in</a></p>
+      </div>
+  
+      <!-- Developer Info -->
+      <div class="footer-section">
+        <h3>Developer Info</h3>
+        <p>Created by: Osho Singh Rajput</p>
+        <p>Phone: 7644047987</p>
+        <p>Email: <a href="mailto:sbiabhi7644@gmail.com">sbiabhi7644@gmail.com</a></p>
+      </div>
+  
+      <!-- Map -->
+      <div class="footer-section">
+        <h3>Our Location</h3>
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.728776436026!2d80.94616531505117!3d26.846693783158746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be2a1d77c4e8b%3A0x8c5f5ef0c2b3b!2sLucknow%20Junction%20Railway%20Station!5e0!3m2!1sen!2sin!4v1694350834567!5m2!1sen!2sin"
+          width="100%" 
+          height="200" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>© 2025 Indian Railway Info | Designed by Osho Singh Rajput</p>
+    </div>
+  </footer>
+  <!-- Footer End -->
+  
+  </div>
+  
+  
+
+  <!-- Smooth scroll & preloader JS -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+
